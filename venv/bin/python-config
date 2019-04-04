@@ -1,4 +1,4 @@
-#!/vagrant/venv/bin/python
+#!/home/vagrant/www/app/venv/bin/python
 
 import sys
 import getopt

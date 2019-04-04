@@ -1,5 +1,5 @@
 from flask import Flask, request
-from flask_restful import Resource, Api
+from flask_restful import Resource, Api, reqparse
 from flask_jwt import JWT, jwt_required, current_identity
 from userSecurity import authenticate,identity
 import datetime
@@ -28,23 +28,34 @@ class ItemsList(Resource):
 
 
 class Item(Resource):
-    def get(self, name):
+    parser = reqparse.RequestParser()
+    parser.add_argument('price', type=float, required=True, help="Wrong value: price")
+
+    def get(self,name):
          item = next(filter( lambda x: x['name'] == name, items), None)
          return {'item': item}, 200 if item else 404
 
 
-    def post(self, name):
+    def post(self,name):
+
         if next(filter(lambda x: x['name'] == name, items), None):
-            return {"message": "item '{}' already exist".format(name)}, 400
-        data= request.get_json()
+            return {"message": "item '{}' already exist".format(data['name'])}, 400
+        data = Item.parser.parse_args()
         item = {'name': name, 'price': data['price']}
         items.append(item)
         return {'items': items}, 201
 
-    def put(self, name):
-        return {'student': name}, 200
+    def put(self,name):
+        data = Item.parser.parse_args()
+        item = next(filter(lambda x: x['name'] == name,items), None)
+        if item is None:
+            item = {'name': name, 'price': data['price']}
+            items.append(item)
+        else:
+            item.update(item)
+        return item, 200
 
-    def delete(self, name):
+    def delete(self,name):
         global items
         items= list(filter(lambda x: x['name'] != name,items))
         return {'message': "deleted the item"}, 202
@@ -53,8 +64,6 @@ class Item(Resource):
 api.add_resource(Item,'/item/<string:name>')
 api.add_resource(Protected,'/protected')
 api.add_resource(ItemsList,'/items')
-
-
 
 
 if __name__ == '__main__':

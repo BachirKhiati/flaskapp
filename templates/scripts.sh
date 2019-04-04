@@ -23,5 +23,4 @@ sudo systemctl restart nginx
 echo "done release"
 cd /home/vagrant/www/app
 source venv/bin/activate
-export FLASK_ENV=development
 python3 /home/vagrant/www/app/app.py

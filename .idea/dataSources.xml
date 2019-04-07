@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="DataSourceManagerImpl" format="xml" multifile-model="true">
+    <data-source source="LOCAL" name="flaskapp@192.168.1.19" uuid="eeeb8e50-44e0-447d-a5c6-67393555abc6">
+      <driver-ref>postgresql</driver-ref>
+      <synchronize>true</synchronize>
+      <jdbc-driver>org.postgresql.Driver</jdbc-driver>
+      <jdbc-url>jdbc:postgresql://192.168.1.19:5432/flaskapp</jdbc-url>
+    </data-source>
+    <data-source source="LOCAL" name="app@94.130.75.112" uuid="c0464994-56db-496e-898a-178556287b9f">
+      <driver-ref>postgresql</driver-ref>
+      <synchronize>true</synchronize>
+      <jdbc-driver>org.postgresql.Driver</jdbc-driver>
+      <jdbc-url>jdbc:postgresql://94.130.75.112:5432/app</jdbc-url>
+    </data-source>
+  </component>
+</project>

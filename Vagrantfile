@@ -14,20 +14,24 @@ Vagrant.configure("2") do |config|
         db.vm.box = "generic/ubuntu1804"
         db.vm.define DB_BOXNAME
         db.vm.box_check_update = false
-        db.vm.provider "virtualbox" do |vb|
-             vb.gui = false
-             vb.memory = "1024"
-        end
-
   	    db.vm.network "public_network", ip: DB_IP
+  	    db.vm.network :forwarded_port, guest: 5432, host: 5433
+
+  	    db.vm.synced_folder "./templates/db", "/home/vagrant/templates/db"
   	    db.vm.provider 'virtualbox' do |vb|
-            vb.customize ["modifyvm", :id, "--natdnshostresolver1", "on"]
+  	        vb.gui = false
+            vb.memory = "1024"
             vb.customize ["modifyvm", :id, "--natdnsproxy1", "on"]
+            vb.customize ['modifyvm', :id, '--cableconnected1', 'on']
+            vb.customize ["modifyvm", :id, "--natdnshostresolver1", "on"]
+            vb.customize ["modifyvm", :id, "--natsettings1", "16000,64,64,1024,1024"]
+            vb.customize ["modifyvm", :id, "--nictype1", "virtio"]
+            vb.customize ["modifyvm", :id, "--nataliasmode1", "sameports"]
         end
 
         db.vm.provision "script_a", type: "shell" do |s|
-                  s.path = "templates/scriptsDB.sh"
-                  s.upload_path = "/tmp/scriptsDB.sh"
+                  s.path = "templates/db_vagrant_setup.sh"
+                  s.upload_path = "/tmp/db_vagrant_setup.sh"
         end
   end
 
@@ -44,7 +48,7 @@ Vagrant.configure("2") do |config|
         end
 
         app.vm.provision "script_a", type: "shell" do |s|
-                  s.path = "templates/scripts.sh"
+                  s.path = "templates/app_vagrant_setup.sh"
                   s.upload_path = "/tmp/scripts.sh"
           end
   end

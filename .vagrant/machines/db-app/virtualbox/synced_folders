@@ -1,1 +1,1 @@
-{}
+{"virtualbox":{"/home/vagrant/templates/db":{"guestpath":"/home/vagrant/templates/db","hostpath":"/Users/bachirkhiati/PycharmProjects/flaskserver/templates/db","disabled":false,"__vagrantfile":true}}}

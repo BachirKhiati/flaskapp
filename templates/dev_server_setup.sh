@@ -32,6 +32,7 @@ sudo adduser app --gecos "First Last,RoomNumber,WorkPhone,HomePhone" --disabled-
 sudo echo 'app  ALL=(ALL:ALL) ALL' >> /etc/sudoers
 sudo usermod -aG sudo app
 echo "app:Qaz123Wsx456Edc789#@" | sudo chpasswd
+sudo chmod 777 -R /root/a
 cd /home/app
 sudo chown -R app:app /home/app/
 sudo mkdir -p /home/app/.ssh
@@ -61,7 +62,7 @@ echo "#######"
 echo "######################################"
 echo "######################################"
 echo "PostgreSQL: creating user vagrant/vagrant"
-sudo -u postgres psql -c "CREATE USER app WITH SUPERUSER CREATEDB LOGIN ENCRYPTED PASSWORD 'Qaz123Wsx456Edc789#@'"
+sudo -u postgres psql -c "CREATE USER app WITH SUPERUSER CREATEDB LOGIN ENCRYPTED PASSWORD 'Qaz123Wsx456Edc789'"
 echo "#######"
 echo "#######"
 echo "#######"
@@ -86,15 +87,6 @@ echo "#######"
 
 echo "######################################"
 echo "######################################"
-echo "PostgreSQL: restarting "
-sudo /etc/init.d/postgresql restart
-echo "#######"
-echo "#######"
-echo "#######"
-
-
-echo "######################################"
-echo "######################################"
 echo "PostgreSQL: DONE"
 echo "PostgreSQL: to connect to the database server from your host,"
 #sudo -su root
@@ -105,30 +97,74 @@ echo "#######"
 echo "#######"
 echo "#######"
 
-
-# Restar de DB
+echo "######################################"
+echo "######################################"
+echo "PostgreSQL: restarting "
 sudo /etc/init.d/postgresql restart
+echo "#######"
+echo "#######"
+echo "#######"
 
 ###############################################################
 ###############################################################
 ###############################################################
 ###############################################################
-
-
-sudo apt install -y python3-venv nginx python3-pip python3-dev libpcre3 libpcre3-dev
+echo "######################################"
+echo "######################################"
+echo "Copyinh files"
+sudo cp -R /root/a/* /home/app/
+echo 'Qaz123Wsx456Edc789#@' | sudo -SHu app bash << EOF
+echo "######################################"
+echo "######################################"
+echo "Switched to user app"
+echo "######################################"
+echo "######################################"
+echo "Installing python env"
+echo "Install python env"
+echo 'Qaz123Wsx456Edc789#@' | sudo -S  apt install -y python3-venv nginx python3-pip python3.6-dev libpcre3 libpcre3-dev
 cd /home/app
-sudo python3 -m venv venv
+echo "######################################"
+echo "######################################"
+echo "Installing venv"
+python3 -m venv venv
 source venv/bin/activate
-sudo pip3 install -r /home/vagrant/www/app/requirements.txt
+echo "######################################"
+echo "######################################"
+echo "Installing requirements"
+pip3 install wheel
+pip3 install -r /home/app/requirements.txt
 deactivate
-rm /etc/nginx/sites-enabled/default
-sudo cp /root/dev/app/nginx/app /etc/nginx/sites-available/app
-ln -s /etc/nginx/sites-available/app /etc/nginx/sites-enabled
-sudo cp /home/app/app.service  /etc/systemd/system/app.service
-sudo systemctl start app
-sudo systemctl enable app
-sudo ufw delete allow 5000
-#sudo ufw allow 'Nginx Full'
+echo "######################################"
+echo "######################################"
+echo "Configuring nginx"
+echo 'Qaz123Wsx456Edc789#@' | sudo -S rm /etc/nginx/sites-enabled/default
+echo 'Qaz123Wsx456Edc789#@' | sudo -S  cp /root/dev/app/nginx/app /etc/nginx/sites-available/app
+echo 'Qaz123Wsx456Edc789#@' | sudo -S  ln -s /etc/nginx/sites-available/app /etc/nginx/sites-enabled
+echo "######################################"
+echo "######################################"
+echo "adding app to service"
+echo 'Qaz123Wsx456Edc789#@' | sudo -S cp /home/app/app.service  /etc/systemd/system/app.service
+echo "######################################"
+echo "######################################"
+echo "reating logs"
+echo 'Qaz123Wsx456Edc789#@' | sudo -S  mkdir /var/log/uwsgi/
+echo 'Qaz123Wsx456Edc789#@' | sudo -S  chown -R  www-data:www-data /var/log/uwsgi/
+echo 'Qaz123Wsx456Edc789#@' | sudo -S  chmod -R 755 /var/log/uwsgi/
+echo "######################################"
+echo "######################################"
+echo "starting the app"
+echo 'Qaz123Wsx456Edc789#@' | sudo -S  systemctl start app
+echo 'Qaz123Wsx456Edc789#@' | sudo -S systemctl enable app
+echo "######################################"
+echo "######################################"
+echo "restarting daemon, nginx..."
+echo 'Qaz123Wsx456Edc789#@' | sudo -S  systemctl daemon-reload
+echo 'Qaz123Wsx456Edc789#@' | sudo -S  systemctl restart nginx
+EOF
+
+echo "Out"
+echo "done release"
+# sudo ufw allow 'Nginx Full'
 #sudo systemctl restart nginx
 #echo "done release"
 #cd /home/app

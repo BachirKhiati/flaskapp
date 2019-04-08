@@ -4,15 +4,17 @@ After=network.target
 
 
 [Service]
-User=vagrant
+User=www-data
 Group=www-data
-WorkingDirectory=/home/vagrant/www/app
-Environment="PATH=/home/vagrant/www/app/venv/bin"
+WorkingDirectory=/home/app/
+Environment="PATH=/home/app/venv/bin"
 Restart=always
+RuntimeDirectoryMode=0775
+RuntimeDirectory=uwsgi
 KillSignal=SIGQUIT
 Type=notify
 NotifyAccess=all
-ExecStart= /home/vagrant/www/app/venv/bin/uwsgi --master --emperor --ini /home/vagrant/www/app/app.ini
+ExecStart=/home/app/venv/bin/uwsgi --ini /home/app/app.ini
 
 [Install]
 WantedBy=multi-user.target

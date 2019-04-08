@@ -6,7 +6,7 @@ After=network.target
 [Service]
 User=www-data
 Group=www-data
-WorkingDirectory=/home/app/
+WorkingDirectory=/home/app
 Environment="PATH=/home/app/venv/bin"
 Restart=always
 RuntimeDirectoryMode=0775

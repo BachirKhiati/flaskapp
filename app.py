@@ -14,7 +14,6 @@ app.config['SECRET_KEY'] = "E{:#ipAF4AT2V<5'Q_*fme_ZGjJ{~,H+6WSm=Wn>=7)N15[|j-m8
 app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql://app:Qaz123Wsx456Edc789@127.0.0.1:5432/app'
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS']= False
 app.config['JWT_EXPIRATION_DELTA'] = datetime.timedelta(days=1800)
-
 api = Api(app)
 
 # @app.before_first_request
@@ -31,7 +30,6 @@ api.add_resource(Store,'/store/<string:name>')
 api.add_resource(UserRegister,'/register')
 api.add_resource(ItemsList,'/items')
 api.add_resource(StoreList,'/stores')
-
 
 if __name__ == '__main__':
     from db import db

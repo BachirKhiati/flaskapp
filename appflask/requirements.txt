@@ -4,7 +4,7 @@ certifi
 chardet
 Click
 Flask
-Flask-JWT
+Flask-jwt-extended
 Flask-RESTful
 Flask-SQLAlchemy
 idna
@@ -20,4 +20,6 @@ six
 urllib3
 uWSGI
 Werkzeug
+jsonschema
+flask-bcrypt
 

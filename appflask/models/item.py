@@ -1,4 +1,4 @@
-from db import db
+from appflask.db import db
 
 class ItemModel(db.Model):
 

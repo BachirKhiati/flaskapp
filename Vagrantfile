@@ -17,7 +17,7 @@ Vagrant.configure("2") do |config|
   	    db.vm.network "public_network", ip: DB_IP
   	    db.vm.network :forwarded_port, guest: 5432, host: 5433
 
-  	    db.vm.synced_folder "./templates/db", "/home/vagrant/templates/db"
+  	    db.vm.synced_folder "appflask/templates/dev/db", "/home/vagrant/templates/db"
   	    db.vm.provider 'virtualbox' do |vb|
   	        vb.gui = false
             vb.memory = "1024"
@@ -30,7 +30,7 @@ Vagrant.configure("2") do |config|
         end
 
         db.vm.provision "script_a", type: "shell" do |s|
-                  s.path = "templates/db_vagrant_setup.sh"
+                  s.path = "appflask/templates/db_vagrant_setup.sh"
                   s.upload_path = "/tmp/db_vagrant_setup.sh"
         end
   end
@@ -48,7 +48,7 @@ Vagrant.configure("2") do |config|
         end
 
         app.vm.provision "script_a", type: "shell" do |s|
-                  s.path = "templates/app_vagrant_setup.sh"
+                  s.path = "appflask/templates/app_vagrant_setup.sh"
                   s.upload_path = "/tmp/scripts.sh"
           end
   end

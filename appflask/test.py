@@ -1,4 +1,4 @@
-cd /home/vagrant/www/app/venv/ && source bin/activate $$ cd .. && sudo python3 /home/vagrant/www/app/app.py
+# cd /home/vagrant/www/app/venv/ && source bin/activate $$ cd .. && sudo python3 /home/vagrant/www/app/app.py
 
 class Student:
 
